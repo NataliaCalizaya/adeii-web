@@ -1,19 +1,19 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { AppProvider } from './context/AppContext'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import QuienesSomosPage from './pages/QuienesSomosPage'
 import EventosPage from './pages/EventosPage'
+import GaleriaPage from './pages/GaleriaPage'
 import ApuntesPage from './pages/ApuntesPage'
 import ValidarCertificadoPage from './pages/ValidarCertificadoPage'
 import LoginPage from './pages/LoginPage'
 import MiPanelPage from './pages/MiPanelPage'
 import AdminPage from './pages/AdminPage'
-import GaleriaPage from './pages/GaleriaPage'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppProvider>
         <Routes>
           {/* Rutas con layout (Navbar + Footer) */}
@@ -37,12 +37,12 @@ export default function App() {
               <div>
                 <h1 className="text-6xl font-bold text-primary font-public-sans mb-4">404</h1>
                 <p className="text-on-surface-variant mb-6">La página que buscás no existe.</p>
-                <a href="/" className="btn-primary">Volver al inicio</a>
+                <a href="#/" className="btn-primary">Volver al inicio</a>
               </div>
             </div>
           } />
         </Routes>
       </AppProvider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
