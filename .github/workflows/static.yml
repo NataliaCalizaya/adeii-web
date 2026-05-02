@@ -2,7 +2,7 @@ name: Deploy Vite Site to Pages
 
 on:
   push:
-    branches: ["main"] # Cambia esto si tu rama principal tiene otro nombre
+    branches: ["branch-1"] # Cambia esto si tu rama principal tiene otro nombre
 
 permissions:
   contents: read
