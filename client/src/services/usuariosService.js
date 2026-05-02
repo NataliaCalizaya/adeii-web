@@ -1,6 +1,12 @@
 import { supabase, isDemoMode } from './supabaseClient'
 import { MOCK_USUARIOS, MOCK_PLAN_ESTUDIO } from '../data/mockData'
 
+const MOCK_COMISION = [
+  { id: '1', nombre: 'Valeria', apellido: 'Torres', cargo: 'Presidenta', periodo: '2024', foto_perfil: null },
+  { id: '2', nombre: 'Diego', apellido: 'Martínez', cargo: 'Secretario', periodo: '2024', foto_perfil: null },
+  { id: '3', nombre: 'Camila', apellido: 'Ruiz', cargo: 'Tesorera', periodo: '2024', foto_perfil: null },
+]
+
 export const usuariosService = {
   getUsuario: async (id) => {
     if (isDemoMode) return MOCK_USUARIOS.find(u => u.id === id) ?? MOCK_USUARIOS[1]
@@ -32,6 +38,18 @@ export const usuariosService = {
       .from('usuarios').select('*').order('created_at', { ascending: false })
     if (error) throw error
     return data
+  },
+
+  getComision: async () => {
+    if (isDemoMode) return MOCK_COMISION
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('id, nombre, apellido, cargo, periodo, foto_perfil')
+      .eq('en_comision', true)
+      .eq('activo', true)
+      .order('orden', { ascending: true })
+    if (error) throw error
+    return data ?? []
   },
 }
 

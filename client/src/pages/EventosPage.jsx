@@ -110,9 +110,9 @@ export default function EventosPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {eventosFiltrados.map((evento) => (
                 <div key={evento.id} className="card-hover flex flex-col overflow-hidden">
-                  {evento.imagen ? (
+                  {evento.imagen_url ? (
                     <img
-                      src={evento.imagen}
+                      src={evento.imagen_url}
                       alt={evento.titulo}
                       className="w-full h-44 object-cover -mx-6 -mt-6 mb-5 w-[calc(100%+3rem)]"
                       onError={(e) => { e.currentTarget.style.display = 'none' }}

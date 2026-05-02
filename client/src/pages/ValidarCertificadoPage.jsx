@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { certificadosService } from '../services/talleresService'
+import { certificadosService } from '../services/certificadosService'
 
 export default function ValidarCertificadoPage() {
   const [codigo, setCodigo] = useState('')

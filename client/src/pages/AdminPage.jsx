@@ -1,7 +1,8 @@
 import { Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { useFetch } from '../hooks/useFetch'
-import { supabase } from '../services/supabaseClient'
+import { supabase, isDemoMode } from '../services/supabaseClient'
+import { usuariosService } from '../services/usuariosService'
 import { SkeletonCard } from '../components/Skeleton'
 import ErrorMessage from '../components/ErrorMessage'
 import StatusBadge from '../components/StatusBadge'
@@ -10,16 +11,18 @@ export default function AdminPage() {
   const { user, profile, loading: authLoading, profileLoading } = useApp()
 
   const { data: usuarios, loading: usersLoading, error: usersError } = useFetch(
-    () => supabase.from('usuarios').select('id, nombre, apellido, email, lu, rol, estado, activo, created_at').order('created_at', { ascending: false }).then(({ data, error }) => { if (error) throw error; return data }),
+    () => usuariosService.getAllUsuarios(),
     []
   )
 
   const { data: documentosPendientes, loading: docsLoading } = useFetch(
-    () => supabase.from('documentos')
-      .select('id, titulo, estado, fecha_subida, carreras(nombre), usuarios!documentos_subido_por_fkey(nombre, apellido)')
-      .eq('estado', 'pendiente')
-      .order('fecha_subida')
-      .then(({ data, error }) => { if (error) throw error; return data }),
+    () => isDemoMode
+      ? Promise.resolve([])
+      : supabase.from('documentos')
+          .select('id, titulo, estado, fecha_subida, carreras(nombre), usuarios!documentos_subido_por_fkey(nombre, apellido)')
+          .eq('estado', 'pendiente')
+          .order('fecha_subida')
+          .then(({ data, error }) => { if (error) throw error; return data }),
     []
   )
 
@@ -143,11 +146,13 @@ export default function AdminPage() {
   )
 
   async function approveDoc(id) {
+    if (isDemoMode) { alert('Acción no disponible en modo demo.'); return }
     await supabase.from('documentos').update({ estado: 'aprobado', aprobado_por: profile.id, fecha_aprobacion: new Date().toISOString() }).eq('id', id)
     window.location.reload()
   }
 
   async function rejectDoc(id) {
+    if (isDemoMode) { alert('Acción no disponible en modo demo.'); return }
     await supabase.from('documentos').update({ estado: 'rechazado' }).eq('id', id)
     window.location.reload()
   }

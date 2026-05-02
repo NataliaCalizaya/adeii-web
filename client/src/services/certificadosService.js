@@ -15,6 +15,18 @@ export const certificadosService = {
     if (error) throw error
     return data
   },
+
+  getCertificadosUsuario: async (usuarioId) => {
+    if (isDemoMode) return []
+    const { data, error } = await supabase
+      .from('certificados')
+      .select('*, talleres(nombre)')
+      .eq('usuario_id', usuarioId)
+      .order('fecha_emision', { ascending: false })
+    if (error) throw error
+    return data ?? []
+  },
 }
 
 export default certificadosService
+

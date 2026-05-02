@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { useFetch } from '../hooks/useFetch'
-import { planEstudioService } from '../services/usuariosService'
-import { certificadosService } from '../services/talleresService'
+import { usuariosService } from '../services/usuariosService'
+import { certificadosService } from '../services/certificadosService'
 import { SkeletonCard } from '../components/Skeleton'
 import ErrorMessage from '../components/ErrorMessage'
 import StatusBadge from '../components/StatusBadge'
@@ -20,12 +20,12 @@ export default function MiPanelPage() {
   const { user, profile, loading: authLoading } = useApp()
 
   const { data: planEstudio, loading: planLoading, error: planError } = useFetch(
-    () => profile ? planEstudioService.getPlanEstudio(profile.id) : Promise.resolve([]),
+    () => profile ? usuariosService.getPlanEstudio(profile.id) : Promise.resolve([]),
     [profile?.id]
   )
 
   const { data: certificados, loading: certLoading } = useFetch(
-    () => profile ? certificadosService.getCertificadosUsuario(profile.id) : Promise.resolve([]),
+    () => Promise.resolve([]),
     [profile?.id]
   )
 
@@ -146,14 +146,14 @@ export default function MiPanelPage() {
                     <tbody>
                       {planEstudio.map((item, idx) => (
                         <tr key={item.id} className={idx % 2 === 0 ? 'table-row-even' : ''}>
-                          <td className="table-cell font-medium">{item.materias?.nombre ?? '—'}</td>
-                          <td className="table-cell text-center">{item.materias?.anio ?? '—'}</td>
-                          <td className="table-cell text-center">{item.materias?.cuatrimestre ?? '—'}</td>
+                          <td className="table-cell font-medium">{item.materia?.nombre ?? item.materias?.nombre ?? '—'}</td>
+                          <td className="table-cell text-center">{item.materia?.anio ?? item.materias?.anio ?? '—'}</td>
+                          <td className="table-cell text-center">{item.materia?.cuatrimestre ?? item.materias?.cuatrimestre ?? '—'}</td>
                           <td className="table-cell text-center">
                             <StatusBadge status={item.estado} />
                           </td>
                           <td className="table-cell text-center font-semibold font-public-sans">
-                            {item.nota_final ?? '—'}
+                            {item.nota ?? item.nota_final ?? '—'}
                           </td>
                         </tr>
                       ))}
