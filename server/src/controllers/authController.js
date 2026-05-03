@@ -1,4 +1,4 @@
-const { supabase } = require('../database/supabase')
+const { supabase, supabaseAdmin } = require('../database/supabase')
 
 /**
  * POST /api/auth/login
@@ -25,9 +25,14 @@ const login = async (req, res) => {
     const authUser = authData.user
 
     // 2. Buscar el perfil en la tabla usuarios para obtener el rol
-    const { data: perfil, error: perfilError } = await supabase
+    // Usamos supabaseAdmin para garantizar la lectura saltando políticas RLS si aplican
+    if (!supabaseAdmin) {
+      return res.status(500).json({ ok: false, error: 'Falta configurar SUPABASE_SERVICE_ROLE_KEY en el servidor.' })
+    }
+
+    const { data: perfil, error: perfilError } = await supabaseAdmin
       .from('usuarios')
-      .select('id, nombre, apellido, email, lu, rol, estado, activo, en_comision, cargo, foto_perfil, carrera_principal_id, carrera_secundaria_id')
+      .select('id, nombre, apellido, email, lu, rol, estado, activo, foto_perfil, carrera_principal_id, carrera_secundaria_id')
       .eq('email', authUser.email)
       .maybeSingle()
 
@@ -115,7 +120,11 @@ const register = async (req, res) => {
 
   try {
     // 1. Crear usuario en Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+    if (!supabaseAdmin) {
+      return res.status(500).json({ ok: false, error: 'Falta configurar SUPABASE_SERVICE_ROLE_KEY en el servidor.' })
+    }
+
+    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
       email_confirm: true, // confirmar automáticamente sin necesitar email
@@ -130,14 +139,12 @@ const register = async (req, res) => {
 
     const authUserId = authData.user.id
 
-    // 2. Insertar perfil en la tabla usuarios
-    const { data: perfil, error: perfilError } = await supabase
+    // 2. Actualizar perfil en la tabla usuarios (el trigger de la DB ya creó la fila vacía)
+    const { data: perfil, error: perfilError } = await supabaseAdmin
       .from('usuarios')
-      .insert({
-        id: authUserId,           // mismo UUID que auth.users
+      .update({
         nombre: nombre.trim(),
         apellido: apellido.trim(),
-        email: email.toLowerCase().trim(),
         lu: lu?.trim() || null,
         fecha_inscripcion: fecha_inscripcion || null,
         carrera_principal_id: carrera_principal_id || null,
@@ -145,15 +152,15 @@ const register = async (req, res) => {
         foto_perfil: foto_perfil || null,
         rol: 'estudiante',        // siempre estudiante en registro público
         estado: 'activo',
-        activo: true,
-        en_comision: false,
+        activo: true
       })
+      .eq('id', authUserId)
       .select()
       .single()
 
     if (perfilError) {
       // Si falla la inserción del perfil, eliminar el usuario de Auth para no dejar inconsistencias
-      await supabase.auth.admin.deleteUser(authUserId)
+      await supabaseAdmin.auth.admin.deleteUser(authUserId)
       return res.status(500).json({ ok: false, error: 'Error al crear el perfil: ' + perfilError.message })
     }
 

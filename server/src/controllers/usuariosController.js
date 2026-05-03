@@ -8,7 +8,7 @@ const getUsuarios = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('usuarios')
-      .select('id, nombre, apellido, email, lu, rol, estado, activo, en_comision, cargo, created_at')
+      .select('id, nombre, apellido, email, lu, rol, estado, activo, created_at')
       .order('created_at', { ascending: false })
     if (error) throw error
     res.json({ ok: true, data })
@@ -23,12 +23,10 @@ const getUsuarios = async (req, res) => {
  */
 const getComision = async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('usuarios')
-      .select('id, nombre, apellido, cargo, periodo, foto_perfil, orden')
-      .eq('en_comision', true)
-      .eq('activo', true)
-      .order('orden', { ascending: true, nullsFirst: false })
+    // TODO: La base de datos no tiene las columnas 'en_comision', 'cargo', 'periodo', 'orden'
+    // Retornamos un array vacío temporalmente hasta que se agreguen las columnas
+    const data = []
+    const error = null
     if (error) throw error
     res.json({ ok: true, data })
   } catch (err) {
