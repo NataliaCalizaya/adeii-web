@@ -7,6 +7,7 @@ import EventosPage from './pages/EventosPage'
 import ApuntesPage from './pages/ApuntesPage'
 import ValidarCertificadoPage from './pages/ValidarCertificadoPage'
 import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 import MiPanelPage from './pages/MiPanelPage'
 import AdminPage from './pages/AdminPage'
 import GaleriaPage from './pages/GaleriaPage'
@@ -28,8 +29,9 @@ export default function App() {
             <Route path="/admin" element={<AdminPage />} />
           </Route>
 
-          {/* Login sin layout completo */}
+          {/* Login / Register sin layout completo */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
           {/* 404 */}
           <Route path="*" element={

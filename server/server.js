@@ -3,6 +3,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 const { errorHandler, requestLogger } = require('./src/middlewares/errorHandler')
+const authRoutes = require('./src/routes/auth')
 const asociacionRoutes = require('./src/routes/asociacion')
 const eventosRoutes = require('./src/routes/eventos')
 const documentosRoutes = require('./src/routes/documentos')
@@ -31,6 +32,7 @@ app.get('/api/health', (req, res) => {
 // ============================
 // Rutas de la API
 // ============================
+app.use('/api/auth', authRoutes)
 app.use('/api/asociacion', asociacionRoutes)
 app.use('/api/eventos', eventosRoutes)
 app.use('/api', documentosRoutes)         // /api/documentos, /api/carreras, /api/materias

@@ -96,9 +96,9 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-on-surface-variant mt-6">
           ¿Todavía no tenés cuenta?{' '}
-          <a href="mailto:adeii@fi.uba.ar" className="text-primary font-semibold hover:underline">
-            Contactá a la asociación
-          </a>
+          <Link to="/register" className="text-primary font-semibold hover:underline">
+            Crear cuenta
+          </Link>
         </p>
         <div className="text-center mt-3">
           <Link to="/" className="text-sm text-on-surface-variant hover:text-primary transition-colors">
