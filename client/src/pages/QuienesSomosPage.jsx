@@ -31,7 +31,7 @@ export default function QuienesSomosPage() {
             <div>
               <h2 className="section-title">Nuestra Asociación</h2>
               <p className="text-on-surface-variant mb-8 leading-relaxed">
-                {asociacion?.quienes_somos ?? 'Somos la Asociación de Estudiantes de Ingeniería Industrial, una organización estudiantil que representa y acompaña a los estudiantes en su trayectoria académica.'}
+                {asociacion?.quienes_somos ?? 'Somos la Asociación de Estudiantes de Ingeniería informatica, una organización estudiantil que representa y acompaña a los estudiantes en su trayectoria académica.'}
               </p>
 
               <div className="space-y-6">

@@ -5,10 +5,10 @@
 export const MOCK_ASOCIACION = {
   id: 1,
   nombre: 'ADEII',
-  nombre_completo: 'Asociación de Estudiantes de Ingeniería Industrial',
-  mision: 'Representar y defender los intereses de los estudiantes de Ingeniería Industrial, fomentando la participación estudiantil, el desarrollo académico y la vinculación con el mundo profesional.',
+  nombre_completo: 'Asociación de Estudiantes de Ingeniería informatica',
+  mision: 'Representar y defender los intereses de los estudiantes de Ingeniería informatica, fomentando la participación estudiantil, el desarrollo académico y la vinculación con el mundo profesional.',
   vision: 'Ser la referencia estudiantil de excelencia en la facultad, construyendo una comunidad activa, inclusiva y comprometida con la formación integral de sus miembros.',
-  descripcion: 'Somos la asociación estudiantil que nuclea a todos los alumnos de Ingeniería Industrial de la facultad. Organizamos eventos, gestionamos recursos académicos y representamos a los estudiantes ante las autoridades.',
+  descripcion: 'Somos la asociación estudiantil que nuclea a todos los alumnos de Ingeniería informatica de la facultad. Organizamos eventos, gestionamos recursos académicos y representamos a los estudiantes ante las autoridades.',
   email_contacto: 'adeii@fi.uba.ar',
   activo: true,
 }
@@ -16,7 +16,7 @@ export const MOCK_ASOCIACION = {
 export const MOCK_EVENTOS = [
   {
     id: 1,
-    titulo: 'VII Congreso Regional de Ingeniería Industrial',
+    titulo: 'VII Congreso  de Ingeniería informatica',
     descripcion: 'El encuentro más importante del año. Paneles, talleres y networking con profesionales del sector.',
     fecha_inicio: '2024-10-15T09:00:00',
     fecha_fin: '2024-10-15T18:00:00',
@@ -46,7 +46,7 @@ export const MOCK_EVENTOS = [
     descripcion: 'Conectate con más de 30 empresas líderes en busca de pasantes y profesionales.',
     fecha_inicio: '2024-11-08T10:00:00',
     fecha_fin: '2024-11-08T17:00:00',
-    lugar: 'Hall Central - Pabellón Industrial',
+    lugar: 'Hall Central - Pabellón informatica',
     tipo: 'feria',
     imagen_url: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&q=80',
     publicado: true,
@@ -68,7 +68,7 @@ export const MOCK_EVENTOS = [
   },
   {
     id: 5,
-    titulo: 'Hackathon de Optimización Industrial',
+    titulo: 'Hackathon de Optimización informatica',
     descripcion: 'Resolvé problemas reales de la industria en 24 horas. Equipos de hasta 4 personas.',
     fecha_inicio: '2024-12-06T08:00:00',
     fecha_fin: '2024-12-07T09:00:00',
@@ -89,7 +89,7 @@ export const MOCK_DOCUMENTOS = [
     archivo_url: null,
     estado: 'aprobado',
     fecha_subida: '2024-09-01T10:00:00',
-    carreras: { id: 1, nombre: 'Ingeniería Industrial', codigo: 'II' },
+    carreras: { id: 1, nombre: 'Ingeniería informatica', codigo: 'II' },
     materias: { id: 1, nombre: 'Investigación Operativa', codigo: 'IO', anio: 3, cuatrimestre: 1 },
     usuarios: { id: 'demo', nombre: 'María', apellido: 'González' },
   },
@@ -100,25 +100,25 @@ export const MOCK_DOCUMENTOS = [
     archivo_url: null,
     estado: 'aprobado',
     fecha_subida: '2024-08-15T14:30:00',
-    carreras: { id: 1, nombre: 'Ingeniería Industrial', codigo: 'II' },
+    carreras: { id: 1, nombre: 'Ingeniería informatica', codigo: 'II' },
     materias: { id: 2, nombre: 'Estadística', codigo: 'EST', anio: 2, cuatrimestre: 2 },
     usuarios: { id: 'demo', nombre: 'Carlos', apellido: 'Ramírez' },
   },
   {
     id: 3,
-    titulo: 'Guía de Procesos Industriales - Unidad 3',
+    titulo: 'Guía de Procesos informaticaes - Unidad 3',
     descripcion: 'Descripción de los principales procesos de manufactura y producción.',
     archivo_url: null,
     estado: 'aprobado',
     fecha_subida: '2024-07-20T09:00:00',
-    carreras: { id: 1, nombre: 'Ingeniería Industrial', codigo: 'II' },
-    materias: { id: 3, nombre: 'Procesos Industriales', codigo: 'PI', anio: 3, cuatrimestre: 2 },
+    carreras: { id: 1, nombre: 'Ingeniería informatica', codigo: 'II' },
+    materias: { id: 3, nombre: 'Procesos informaticaes', codigo: 'PI', anio: 3, cuatrimestre: 2 },
     usuarios: { id: 'demo', nombre: 'Laura', apellido: 'Fernández' },
   },
 ]
 
 export const MOCK_CARRERAS = [
-  { id: 1, nombre: 'Ingeniería Industrial', codigo: 'II' },
+  { id: 1, nombre: 'Ingeniería informatica', codigo: 'II' },
   { id: 2, nombre: 'Ingeniería en Alimentos', codigo: 'IA' },
 ]
 
@@ -153,13 +153,13 @@ export const MOCK_PLAN_ESTUDIO = [
   { id: 3, materia: { nombre: 'Física I', anio: 1, cuatrimestre: 2 }, estado: 'aprobada', nota: 6 },
   { id: 4, materia: { nombre: 'Estadística', anio: 2, cuatrimestre: 1 }, estado: 'aprobada', nota: 9 },
   { id: 5, materia: { nombre: 'Investigación Operativa', anio: 3, cuatrimestre: 1 }, estado: 'cursando', nota: null },
-  { id: 6, materia: { nombre: 'Procesos Industriales', anio: 3, cuatrimestre: 2 }, estado: 'pendiente', nota: null },
+  { id: 6, materia: { nombre: 'Procesos informaticaes', anio: 3, cuatrimestre: 2 }, estado: 'pendiente', nota: null },
 ]
 
 export const MOCK_CERTIFICADO = {
   codigo: 'DEMO-2024-001',
   nombre_completo: 'Juan Pérez',
-  evento: 'VII Congreso Regional de Ingeniería',
+  evento: 'VII Congreso  de Ingeniería',
   fecha_emision: '2024-10-15',
   valido: true,
 }

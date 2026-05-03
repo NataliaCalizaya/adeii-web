@@ -1,6 +1,6 @@
 # ADEII Web — Portal de la Asociación Estudiantil
 
-Portal web fullstack para la Asociación de Estudiantes de Ingeniería Industrial (ADEII).
+Portal web fullstack para la Asociación de Estudiantes de Ingeniería informatica (ADEII).
 
 ## Stack Tecnológico
 
