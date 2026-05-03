@@ -50,7 +50,7 @@ export default function GaleriaPage() {
                   15 de Octubre, 2023
                 </div>
                 <h3 className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] font-public-sans mb-2">
-                  VII Congreso Regional de Ingeniería
+                  VII Congreso  de Ingeniería
                 </h3>
                 <a href="#" className="inline-flex items-center gap-1 text-[#00558a] text-[14px] font-semibold leading-[1.2] font-public-sans hover:text-[#004a79] transition-colors">
                   Ver fotos
