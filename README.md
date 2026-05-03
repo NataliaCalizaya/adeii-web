@@ -1,6 +1,5 @@
-# ADEII Web — Portal de la Asociación de estudiantes de Ingenieria informatica 
-
-Portal web fullstack para la Asociación de Estudiantes de Ingeniería informatica (ADEII).
+# ADEII Web 
+Portal web fullstack para la Asociación de Estudiantes de Ingeniería Informatica (ADEII).
 
 ## Stack Tecnológico
 
@@ -9,8 +8,7 @@ Portal web fullstack para la Asociación de Estudiantes de Ingeniería informati
 | Frontend | React + Vite + Tailwind CSS |
 | Tipografía | Slabo 27px (Google Fonts) |
 | Backend | Node.js + Express |
-| Base de datos | Supabase (PostgreSQL) |
-| Storage (PDFs) | Supabase Storage |
+
 
 ## Páginas incluidas (basadas en Stitch)
 
@@ -168,34 +166,9 @@ adeii-web/
     └── package.json
 ```
 
-## Endpoints API (backend)
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| `GET` | `/api/health` | Health check |
-| `GET` | `/api/asociacion` | Datos de la asociación |
-| `GET` | `/api/asociacion/:id/redes` | Redes sociales activas |
-| `GET` | `/api/eventos` | Listar eventos (filtro ?tipo=) |
-| `GET` | `/api/eventos/:id` | Detalle de evento |
-| `POST` | `/api/eventos/:id/inscribir` | Inscribir usuario a evento |
-| `GET` | `/api/documentos` | Listar documentos aprobados |
-| `PATCH` | `/api/documentos/:id/aprobar` | Aprobar documento (admin) |
-| `GET` | `/api/carreras` | Listar carreras |
-| `GET` | `/api/materias` | Listar materias (filtro ?carrera_id=) |
-| `GET` | `/api/talleres` | Listar talleres activos |
-| `GET` | `/api/certificados/validar/:codigo` | Validar certificado |
-| `GET` | `/api/certificados/usuario/:id` | Certificados de un usuario |
-| `GET` | `/api/usuarios` | Listar usuarios (admin) |
-| `GET` | `/api/usuarios/comision` | Comisión directiva |
-| `GET` | `/api/usuarios/:id/plan-estudio` | Plan de estudio del usuario |
 
 ## Supabase Storage
-
-Los PDFs de documentos y certificados se almacenan en **Supabase Storage**.
-
-- **Bucket**: `documentos` (configurar en el dashboard de Supabase)
-- **URLs**: públicas, vinculadas directamente desde `documentos.archivo_url` y `certificados.archivo_url`
-- **Subida**: via `documentosService.subirDocumento()` en el frontend
 
 ## Notas de desarrollo
 
