@@ -19,7 +19,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
-              {asociacion?.mision?.slice(0, 120) ?? 'Asociación de Estudiantes de Ingeniería Industrial'}
+              {asociacion?.mision?.slice(0, 120) ?? 'Asociación de Estudiantes de Ingeniería informatica'}
               {asociacion?.mision?.length > 120 ? '...' : ''}
             </p>
           </div>

@@ -37,7 +37,7 @@ export default function LoginPage() {
             <span className="text-white font-bold text-xl font-public-sans">AE</span>
           </div>
           <h1 className="text-2xl font-bold font-public-sans mb-1">Ingresar a ADEII</h1>
-          <p className="text-sm text-on-surface-variant">Portal de la Asociación Estudiantil</p>
+          <p className="text-sm text-on-surface-variant">Portal de la Asociación de estudiantes de Ingenieria informatica </p>
         </div>
 
         {/* Card */}

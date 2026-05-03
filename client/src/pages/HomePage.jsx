@@ -126,20 +126,19 @@ function MiniCalendar({ eventos = [] }) {
                 isToday(day)
                   ? 'border-[#00558a] bg-[#00558a]/5'
                   : eventMap[day]
-                  ? 'border-[#e3e2e7] bg-[#cfe5ff]/20'
-                  : 'border-[#e3e2e7]',
+                    ? 'border-[#e3e2e7] bg-[#cfe5ff]/20'
+                    : 'border-[#e3e2e7]',
                 isWeekend(idx) && !isToday(day) ? 'bg-[#eeedf3]' : '',
                 !isToday(day) && !isWeekend(idx) ? 'hover:bg-[#f4f3f8]' : '',
               ].join(' ')}
             >
               <span
-                className={`text-[16px] leading-[1.6] ${
-                  isToday(day)
-                    ? 'text-[#00558a] font-bold'
-                    : isWeekend(idx)
+                className={`text-[16px] leading-[1.6] ${isToday(day)
+                  ? 'text-[#00558a] font-bold'
+                  : isWeekend(idx)
                     ? 'text-[#404750]'
                     : 'text-[#1a1b1f]'
-                }`}
+                  }`}
               >
                 {day}
               </span>
@@ -173,11 +172,11 @@ function MiniCalendar({ eventos = [] }) {
 
 // ─── Badge de novedad ──────────────────────────────────────────────────────────
 const BADGE_MAP = {
-  academico:  { label: 'Académico',   bg: 'bg-[#cfe5ff]', text: 'text-[#004a79]' },
-  taller:     { label: 'Capacitación',bg: 'bg-[#ffdcc5]', text: 'text-[#713700]' },
-  seminario:  { label: 'Seminario',   bg: 'bg-[#e4e2e2]', text: 'text-[#464747]' },
-  social:     { label: 'Social',      bg: 'bg-[#ffdcc5]', text: 'text-[#713700]' },
-  otro:       { label: 'General',     bg: 'bg-[#e4e2e2]', text: 'text-[#464747]' },
+  academico: { label: 'Académico', bg: 'bg-[#cfe5ff]', text: 'text-[#004a79]' },
+  taller: { label: 'Capacitación', bg: 'bg-[#ffdcc5]', text: 'text-[#713700]' },
+  seminario: { label: 'Seminario', bg: 'bg-[#e4e2e2]', text: 'text-[#464747]' },
+  social: { label: 'Social', bg: 'bg-[#ffdcc5]', text: 'text-[#713700]' },
+  otro: { label: 'General', bg: 'bg-[#e4e2e2]', text: 'text-[#464747]' },
 }
 
 // ─── HomePage ──────────────────────────────────────────────────────────────────
@@ -207,7 +206,7 @@ export default function HomePage() {
             className="text-[48px] font-bold leading-[1.1] tracking-[-0.02em] text-white mb-6"
             style={{ fontFamily: "'Slabo 27px', serif" }}
           >
-            {asociacion?.nombre ?? 'Asociación Estudiantil Regional'}
+            {asociacion?.nombre ?? 'Asociación de estudiantes de Ingenieria informatica  '}
           </h1>
           <p
             className="text-[18px] leading-[1.6] text-white/90 max-w-2xl mx-auto"
@@ -249,45 +248,45 @@ export default function HomePage() {
             {/* PDF cards from Supabase */}
             {pdfs.length > 0
               ? pdfs.map((doc) => (
-                  <div
-                    key={doc.id}
-                    className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center justify-center text-center"
+                <div
+                  key={doc.id}
+                  className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center justify-center text-center"
+                >
+                  <IconPdf />
+                  <h3
+                    className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] my-6"
+                    style={{ fontFamily: "'Slabo 27px', serif" }}
                   >
-                    <IconPdf />
-                    <h3
-                      className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] my-6"
-                      style={{ fontFamily: "'Slabo 27px', serif" }}
-                    >
-                      {doc.titulo}
-                    </h3>
-                    <a
-                      href={doc.archivo_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-auto px-6 py-2 border border-[#146ead] text-[#146ead] rounded hover:bg-[#146ead]/5 transition-colors text-[14px] font-semibold w-full text-center"
-                    >
-                      Ver
-                    </a>
-                  </div>
-                ))
+                    {doc.titulo}
+                  </h3>
+                  <a
+                    href={doc.archivo_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto px-6 py-2 border border-[#146ead] text-[#146ead] rounded hover:bg-[#146ead]/5 transition-colors text-[14px] font-semibold w-full text-center"
+                  >
+                    Ver
+                  </a>
+                </div>
+              ))
               : /* Placeholder cards cuando no hay datos */
-                ['Análisis Matemático II', 'Física I', 'Programación'].map((nombre) => (
-                  <div
-                    key={nombre}
-                    className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center justify-center text-center"
+              ['Análisis Matemático II', 'Física I', 'Programación'].map((nombre) => (
+                <div
+                  key={nombre}
+                  className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center justify-center text-center"
+                >
+                  <IconPdf />
+                  <h3
+                    className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] my-6"
+                    style={{ fontFamily: "'Slabo 27px', serif" }}
                   >
-                    <IconPdf />
-                    <h3
-                      className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] my-6"
-                      style={{ fontFamily: "'Slabo 27px', serif" }}
-                    >
-                      {nombre}
-                    </h3>
-                    <button className="mt-auto px-6 py-2 border border-[#146ead] text-[#146ead] rounded hover:bg-[#146ead]/5 transition-colors text-[14px] font-semibold w-full">
-                      Ver
-                    </button>
-                  </div>
-                ))}
+                    {nombre}
+                  </h3>
+                  <button className="mt-auto px-6 py-2 border border-[#146ead] text-[#146ead] rounded hover:bg-[#146ead]/5 transition-colors text-[14px] font-semibold w-full">
+                    Ver
+                  </button>
+                </div>
+              ))}
 
             {/* CTA card: login */}
             <div className="bg-white border-2 border-[#146ead] rounded p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center justify-center text-center">
@@ -387,77 +386,29 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {novedades.length > 0
               ? novedades.map((ev) => {
-                  const badge = BADGE_MAP[ev.tipo] ?? BADGE_MAP.otro
-                  return (
-                    <article
-                      key={ev.id}
-                      className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-200"
-                    >
-                      <div
-                        className={`inline-block px-2 py-1 ${badge.bg} ${badge.text} text-[12px] leading-[1.4] rounded mb-4 uppercase tracking-wider font-semibold`}
-                        style={{ fontFamily: "'Slabo 27px', serif" }}
-                      >
-                        {badge.label}
-                      </div>
-                      <h3
-                        className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] mb-2"
-                        style={{ fontFamily: "'Slabo 27px', serif" }}
-                      >
-                        {ev.titulo}
-                      </h3>
-                      <p
-                        className="text-[16px] leading-[1.6] text-[#404750] mb-4 line-clamp-3"
-                        style={{ fontFamily: "'Slabo 27px', serif" }}
-                      >
-                        {ev.descripcion}
-                      </p>
-                      <Link
-                        to="/eventos"
-                        className="text-[14px] font-semibold tracking-[0.05em] text-[#00558a] hover:text-[#146ead] transition-colors"
-                      >
-                        Leer más
-                      </Link>
-                    </article>
-                  )
-                })
-              : /* Placeholder cards */
-                [
-                  {
-                    badge: BADGE_MAP.academico,
-                    title: 'Nueva Beca Disponible',
-                    desc: 'Se ha abierto la convocatoria para las becas de ayuda económica y apuntes correspondientes al segundo cuatrimestre.',
-                  },
-                  {
-                    badge: BADGE_MAP.taller,
-                    title: 'Taller de AutoCAD',
-                    desc: 'Inscripciones abiertas para el taller nivel inicial y avanzado de diseño asistido por computadora.',
-                  },
-                  {
-                    badge: BADGE_MAP.seminario,
-                    title: 'Charla de Inteligencia Artificial',
-                    desc: 'Expertos de la industria debatirán sobre el impacto de la IA en la ingeniería civil y de sistemas.',
-                  },
-                ].map((item) => (
+                const badge = BADGE_MAP[ev.tipo] ?? BADGE_MAP.otro
+                return (
                   <article
-                    key={item.title}
+                    key={ev.id}
                     className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-200"
                   >
                     <div
-                      className={`inline-block px-2 py-1 ${item.badge.bg} ${item.badge.text} text-[12px] leading-[1.4] rounded mb-4 uppercase tracking-wider font-semibold`}
+                      className={`inline-block px-2 py-1 ${badge.bg} ${badge.text} text-[12px] leading-[1.4] rounded mb-4 uppercase tracking-wider font-semibold`}
+                      style={{ fontFamily: "'Slabo 27px', serif" }}
                     >
-                      {item.badge.label}
+                      {badge.label}
                     </div>
                     <h3
                       className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] mb-2"
                       style={{ fontFamily: "'Slabo 27px', serif" }}
                     >
-                      {item.title}
+                      {ev.titulo}
                     </h3>
                     <p
                       className="text-[16px] leading-[1.6] text-[#404750] mb-4 line-clamp-3"
                       style={{ fontFamily: "'Slabo 27px', serif" }}
                     >
-                      {item.desc}
+                      {ev.descripcion}
                     </p>
                     <Link
                       to="/eventos"
@@ -466,7 +417,55 @@ export default function HomePage() {
                       Leer más
                     </Link>
                   </article>
-                ))}
+                )
+              })
+              : /* Placeholder cards */
+              [
+                {
+                  badge: BADGE_MAP.academico,
+                  title: 'Nueva Beca Disponible',
+                  desc: 'Se ha abierto la convocatoria para las becas de ayuda económica y apuntes correspondientes al segundo cuatrimestre.',
+                },
+                {
+                  badge: BADGE_MAP.taller,
+                  title: 'Taller de AutoCAD',
+                  desc: 'Inscripciones abiertas para el taller nivel inicial y avanzado de diseño asistido por computadora.',
+                },
+                {
+                  badge: BADGE_MAP.seminario,
+                  title: 'Charla de Inteligencia Artificial',
+                  desc: 'Expertos de la industria debatirán sobre el impacto de la IA en la ingeniería civil y de sistemas.',
+                },
+              ].map((item) => (
+                <article
+                  key={item.title}
+                  className="bg-white border border-[#c0c7d1] rounded p-6 hover:shadow-lg transition-shadow duration-200"
+                >
+                  <div
+                    className={`inline-block px-2 py-1 ${item.badge.bg} ${item.badge.text} text-[12px] leading-[1.4] rounded mb-4 uppercase tracking-wider font-semibold`}
+                  >
+                    {item.badge.label}
+                  </div>
+                  <h3
+                    className="text-[20px] font-semibold leading-[1.4] text-[#1a1b1f] mb-2"
+                    style={{ fontFamily: "'Slabo 27px', serif" }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    className="text-[16px] leading-[1.6] text-[#404750] mb-4 line-clamp-3"
+                    style={{ fontFamily: "'Slabo 27px', serif" }}
+                  >
+                    {item.desc}
+                  </p>
+                  <Link
+                    to="/eventos"
+                    className="text-[14px] font-semibold tracking-[0.05em] text-[#00558a] hover:text-[#146ead] transition-colors"
+                  >
+                    Leer más
+                  </Link>
+                </article>
+              ))}
           </div>
         </section>
 
@@ -512,7 +511,7 @@ export default function HomePage() {
                 style={{ fontFamily: "'Slabo 27px', serif" }}
               >
                 {asociacion?.vision ??
-                  'Ser la asociación estudiantil referente a nivel regional, reconocida por su excelencia institucional y su compromiso con la comunidad universitaria.'}
+                  'Ser la Asociación de estudiantes de Ingenieria informatica  referente a nivel , reconocida por su excelencia institucional y su compromiso con la comunidad universitaria.'}
               </p>
             </div>
           </div>
