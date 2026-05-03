@@ -1,6 +1,8 @@
 // Servicios para `talleres`, `inscripciones_talleres` y `certificados`
 import { supabase } from './supabaseClient'
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+
 export const talleresService = {
   /**
    * Lista talleres activos
@@ -60,5 +62,21 @@ export const certificadosService = {
       .eq('usuario_id', usuarioId)
     if (error) throw error
     return data
+  },
+}
+
+/**
+ * Busca archivos PDF en la carpeta de Google Drive por nombre de alumno
+ */
+export const driveService = {
+  buscarCertificados: async (nombre) => {
+    if (!nombre || nombre.trim().length < 2) return []
+    const res = await fetch(`${API_BASE}/certificados/drive/buscar?nombre=${encodeURIComponent(nombre.trim())}`)
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      throw new Error(body.error || 'Error consultando Drive')
+    }
+    const body = await res.json()
+    return body.data || []
   },
 }

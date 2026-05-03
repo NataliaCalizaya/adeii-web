@@ -1,8 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { useFetch } from '../hooks/useFetch'
 import { planEstudioService } from '../services/usuariosService'
-import { certificadosService } from '../services/talleresService'
+import { certificadosService, driveService } from '../services/talleresService'
 import { SkeletonCard } from '../components/Skeleton'
 import ErrorMessage from '../components/ErrorMessage'
 import StatusBadge from '../components/StatusBadge'
@@ -12,6 +13,167 @@ function ProgressBar({ value }) {
   return (
     <div className="progress-track">
       <div className="progress-fill" style={{ width: `${pct}%` }} />
+    </div>
+  )
+}
+
+/** Ícono PDF */
+function PdfIcon() {
+  return (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 21H17a2 2 0 002-2V9l-5-5H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v5h5M9 17h6M9 13h6M9 9h2" />
+    </svg>
+  )
+}
+
+/** Sección de certificados de Google Drive */
+function CertificadosDrive({ nombreCompleto }) {
+  const [archivos, setArchivos] = useState(null)
+  const [cargando, setCargando] = useState(false)
+  const [error, setError] = useState(null)
+  const [busqueda, setBusqueda] = useState('')
+  const [buscando, setBuscando] = useState(false)
+  const [archivosDrive, setArchivosDrive] = useState([])
+  const [errDrive, setErrDrive] = useState(null)
+  const [previewId, setPreviewId] = useState(null)
+
+  // Buscar automáticamente por el nombre del alumno al cargar
+  useEffect(() => {
+    if (!nombreCompleto || nombreCompleto.trim().length < 2) return
+    setBusqueda(nombreCompleto)
+    handleBuscar(nombreCompleto)
+  }, [nombreCompleto])
+
+  const handleBuscar = async (termino) => {
+    const q = (termino ?? busqueda).trim()
+    if (q.length < 2) return
+    setBuscando(true)
+    setErrDrive(null)
+    setArchivosDrive([])
+    setPreviewId(null)
+    try {
+      const datos = await driveService.buscarCertificados(q)
+      setArchivosDrive(datos)
+    } catch (e) {
+      setErrDrive(e.message)
+    } finally {
+      setBuscando(false)
+    }
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl font-bold font-public-sans mb-2">Mis Certificados (Google Drive)</h2>
+      <p className="text-sm text-on-surface-variant mb-4">
+        Los certificados se buscan automáticamente en la carpeta oficial. Podés refinar la búsqueda si es necesario.
+      </p>
+
+      {/* Barra de búsqueda */}
+      <div className="flex gap-2 mb-5">
+        <input
+          id="drive-buscar-nombre"
+          type="text"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleBuscar()}
+          placeholder="Buscar por nombre completo..."
+          className="input flex-1"
+        />
+        <button
+          id="drive-buscar-btn"
+          onClick={() => handleBuscar()}
+          disabled={buscando || busqueda.trim().length < 2}
+          className="btn-primary"
+        >
+          {buscando ? 'Buscando...' : 'Buscar'}
+        </button>
+      </div>
+
+      {/* Error Drive */}
+      {errDrive && (
+        <div className="rounded-xl border border-red-300 bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-700 dark:text-red-300 mb-4">
+          {errDrive}
+        </div>
+      )}
+
+      {/* Skeleton */}
+      {buscando && (
+        <div className="space-y-3">
+          {[1, 2].map((i) => <SkeletonCard key={i} />)}
+        </div>
+      )}
+
+      {/* Sin resultados */}
+      {!buscando && !errDrive && archivosDrive.length === 0 && busqueda.trim().length >= 2 && (
+        <div className="card text-center py-10 text-on-surface-variant">
+          <div className="w-12 h-12 mx-auto mb-3 text-on-surface-variant opacity-40">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <p className="text-sm">No se encontraron certificados para <strong>"{busqueda}"</strong>.</p>
+          <p className="text-xs mt-1 opacity-60">Probá con otra variación del nombre.</p>
+        </div>
+      )}
+
+      {/* Listado de archivos */}
+      {!buscando && archivosDrive.length > 0 && (
+        <div className="space-y-3">
+          {archivosDrive.map((archivo) => (
+            <div key={archivo.id} className="card">
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center flex-shrink-0 text-red-600 dark:text-red-400">
+                    <PdfIcon />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm font-public-sans">{archivo.nombre}</p>
+                    {archivo.modificado && (
+                      <p className="text-xs text-on-surface-variant">
+                        {new Date(archivo.modificado).toLocaleDateString('es-AR')}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex gap-2 flex-shrink-0">
+                  <button
+                    id={`preview-btn-${archivo.id}`}
+                    onClick={() => setPreviewId(previewId === archivo.id ? null : archivo.id)}
+                    className="btn-ghost text-sm"
+                  >
+                    {previewId === archivo.id ? 'Cerrar' : 'Ver PDF'}
+                  </button>
+                  <a
+                    id={`download-btn-${archivo.id}`}
+                    href={archivo.descargarUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary text-sm"
+                  >
+                    Descargar
+                  </a>
+                </div>
+              </div>
+
+              {/* Preview inline */}
+              {previewId === archivo.id && (
+                <div className="mt-4 rounded-xl overflow-hidden border border-outline-variant" style={{ height: '500px' }}>
+                  <iframe
+                    src={archivo.previewUrl}
+                    width="100%"
+                    height="100%"
+                    title={archivo.nombre}
+                    allow="autoplay"
+                    className="block"
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -35,6 +197,9 @@ export default function MiPanelPage() {
   const materiasAprobadas = (planEstudio ?? []).filter((p) => p.estado === 'aprobada').length
   const totalMaterias = (planEstudio ?? []).length
   const progresoTotal = totalMaterias > 0 ? Math.round((materiasAprobadas / totalMaterias) * 100) : 0
+
+  // Nombre completo para buscar en Drive
+  const nombreCompleto = [profile?.nombre, profile?.apellido].filter(Boolean).join(' ')
 
   return (
     <div className="py-12">
@@ -71,11 +236,6 @@ export default function MiPanelPage() {
               <p className="text-sm text-on-surface-variant mt-1">{profile?.email}</p>
               {profile?.lu && (
                 <p className="text-xs text-on-surface-variant mt-1">LU: {profile.lu}</p>
-              )}
-              {profile?.en_comision && (
-                <div className="mt-3">
-                  <span className="badge-primary">{profile.cargo ?? 'Comisión'}</span>
-                </div>
               )}
               <StatusBadge status={profile?.estado ?? 'activo'} />
             </div>
@@ -163,52 +323,14 @@ export default function MiPanelPage() {
               )}
             </div>
 
-            {/* Mis certificados */}
-            <div>
-              <h2 className="text-xl font-bold font-public-sans mb-5">Mis Certificados</h2>
-              {certLoading ? (
-                <div className="space-y-3">
-                  {[1, 2].map((i) => <SkeletonCard key={i} />)}
-                </div>
-              ) : !certificados || certificados.length === 0 ? (
-                <div className="card text-center py-10 text-on-surface-variant">
-                  <p className="text-sm">Todavía no tenés certificados emitidos.</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {certificados.map((cert) => (
-                    <div key={cert.id} className="card flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-sm font-public-sans">{cert.talleres?.nombre}</p>
-                          <p className="text-xs text-on-surface-variant font-mono">{cert.codigo_validacion}</p>
-                          {cert.fecha_emision && (
-                            <p className="text-xs text-on-surface-variant">
-                              {new Date(cert.fecha_emision).toLocaleDateString('es-AR')}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      {cert.archivo_url && (
-                        <a
-                          href={cert.archivo_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-ghost text-sm flex-shrink-0"
-                        >
-                          Ver PDF
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            {/* Certificados de Google Drive */}
+            {nombreCompleto ? (
+              <CertificadosDrive nombreCompleto={nombreCompleto} />
+            ) : (
+              <div className="card text-center py-10 text-on-surface-variant">
+                <p className="text-sm">Completá tu perfil (nombre y apellido) para ver tus certificados.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
